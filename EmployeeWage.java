@@ -1,21 +1,35 @@
 class EmployeeWage {
-		public static final int EMP_RATE_PER_HOUR = 20;
-		public static final int IS_FULL_TIME = 2;
 		public static final int IS_PART_TIME = 1;
-                public static final int WORKING_DAYS = 30;
-                public static final int MAX_HRS = 100;
+		public static final int IS_FULL_TIME = 2;
 
-        public static int empCheck(){
+                private final String company;
+		private final int empRate;
+                private final int workingDays;
+                private final int maxHour;
+                private int totalWage;
+
+
+
+
+
+                public EmployeeWage(String company, int empRate, int workingDays, int maxHour) {
+                               this.company = company;
+                               this.empRate = empRate;
+                               this.maxHour = maxHour;
+                               this.workingDays = workingDays;
+                 }
+
+        public int empCheck(){
                return (int) Math.floor(Math.random() * 10) % 3;
              }
-        public static void empWageCalculation(){
+             
+        public void empWageCalculation(){
          System.out.println("Welcome to Employee Wage Program");
                          int totalHrs = 0;
                          int empHrs = 0;
                          int empWage = 0;
-                         int totalWage = 0;
                          int days = 0;
-                         while (totalHrs <= MAX_HRS && days < WORKING_DAYS){
+                         while (totalHrs <= this.maxHour && days < this.workingDays){
                                days++; 
                                switch(empCheck()){
                                                 case IS_FULL_TIME:
@@ -34,11 +48,19 @@ class EmployeeWage {
                                   totalHrs += empHrs;
                                   System.out.println("Day : " + days + " Emp Hrs: " + empHrs);
                          }       
-                         totalWage =  totalHrs * EMP_RATE_PER_HOUR;
+                         this.totalWage =  totalHrs * empRate;
                          System.out.println("Total Employee Wage: " + totalWage);
+                         
                          }
+
+
+               public String toString() {
+	          	return "Total Employee Wage for Company: " + company + " is : " + this.totalWage;
+	       }
 	public static void main(String[] args) {
 
-         empWageCalculation();
+         EmployeeWage amazon = new EmployeeWage("Amazon", 25, 20, 100);
+         amazon.empWageCalculation();
+         System.out.println(amazon);
         }
 }
