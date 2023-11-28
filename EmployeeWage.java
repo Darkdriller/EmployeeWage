@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 interface IEmployeeWageComputation {
     void addCompanyEmpWage(String company, int empRate, int workingDays, int maxHour);
     void computeEmpWageForAll();
@@ -32,23 +34,23 @@ class EmployeeWage implements IEmployeeWageComputation {
         private int totalCompanies = 0;
 
 
-        private static Company[] companyArray;
+        private static ArrayList<Company> companyArray;
 
-        public EmployeeWage(int SizeOfCompanyList) {
-            companyArray = new Company[SizeOfCompanyList];
+        public EmployeeWage() {
+            companyArray = new ArrayList<Company>();
         }
         @Override
         public void addCompanyEmpWage(String company, int empRate, int workingDays, int maxHour) {
-            companyArray[totalCompanies] = new Company(company, empRate, workingDays,
-                    maxHour);
+            companyArray.add(new Company(company, empRate, workingDays,
+                    maxHour));
             totalCompanies++;
         }
 
         @Override
         public void computeEmpWageForAll() {
             for (int i = 0; i < totalCompanies; i++) {
-                companyArray[i].setTotalEmpWage(this.empWageCalculation(companyArray[i]));
-                System.out.println(companyArray[i]);
+                companyArray.get(i).setTotalEmpWage(this.empWageCalculation(companyArray.get(i)));
+                System.out.println(companyArray.get(i));
             }
         }
 
@@ -91,10 +93,10 @@ class EmployeeWage implements IEmployeeWageComputation {
         }
 	public static void main(String[] args) {
 
-        IEmployeeWageComputation EmpWageTool = new EmployeeWage(5);
+        IEmployeeWageComputation EmpWageTool = new EmployeeWage();
         EmpWageTool.addCompanyEmpWage("Amazon", 25, 25, 100);
         EmpWageTool.addCompanyEmpWage("Paypal", 25, 25, 80);
-        EmpWageTool .addCompanyEmpWage("Google", 25, 30, 85);
+        EmpWageTool.addCompanyEmpWage("Google", 25, 30, 85);
         EmpWageTool.computeEmpWageForAll();
         }
 }
