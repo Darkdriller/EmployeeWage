@@ -12,16 +12,21 @@ class EmployeeWage implements IEmployeeWageComputation {
             protected final int workingDays;
             protected final int maxHour;
             protected int totalEmpWage;
+            protected ArrayList<Integer> dailyWageList;
 
             public Company(String company, int empRate, int workingDays, int maxHour) {
                 this.companyName = company;
                 this.empRate = empRate;
                 this.maxHour = maxHour;
                 this.workingDays = workingDays;
+                this.dailyWageList = new ArrayList<Integer>();
             }
 
             public void setTotalEmpWage(int totalEmpWage) {
                 this.totalEmpWage = totalEmpWage;
+            }
+            public void addDailyEmpWage(int dailyWage) {
+                this.dailyWageList.add(dailyWage);
             }
             @Override
             public String toString() {
@@ -60,7 +65,7 @@ class EmployeeWage implements IEmployeeWageComputation {
 
             public int empCheck(){
                return (int) Math.floor(Math.random() * 10) % 3;
-             }
+            }
              
         public int empWageCalculation(Company company){
             System.out.println("Welcome to Employee Wage Program");
@@ -83,6 +88,7 @@ class EmployeeWage implements IEmployeeWageComputation {
                                      System.out.println("Employee is absent");
                                      empHrs = 0;
                              }
+                             company.addDailyEmpWage(empHrs*company.empRate);
                              totalHrs += empHrs;
                              System.out.println("Day : " + days + " Emp Hrs: " + empHrs);
                          }
@@ -91,12 +97,25 @@ class EmployeeWage implements IEmployeeWageComputation {
 
                          return totalHrs * company.empRate ;
         }
+
+        public int getTotalWageByCompany(String companyName) {
+            for (Company company : companyArray) {
+                if (company.companyName.equals(companyName)) {
+                    return company.totalEmpWage;
+                }
+            }
+            return -1; // Return -1 or some other indicator if the company is not found
+        }
 	public static void main(String[] args) {
 
-        IEmployeeWageComputation EmpWageTool = new EmployeeWage();
-        EmpWageTool.addCompanyEmpWage("Amazon", 25, 25, 100);
-        EmpWageTool.addCompanyEmpWage("Paypal", 25, 25, 80);
-        EmpWageTool.addCompanyEmpWage("Google", 25, 30, 85);
-        EmpWageTool.computeEmpWageForAll();
+        IEmployeeWageComputation empWageTool = new EmployeeWage();
+        empWageTool.addCompanyEmpWage("Amazon", 25, 25, 100);
+        empWageTool.addCompanyEmpWage("Paypal", 25, 25, 80);
+        empWageTool.addCompanyEmpWage("Google", 25, 30, 85);
+        empWageTool.computeEmpWageForAll();
+        System.out.println("Total Wage for Amazon: " + ((EmployeeWage) empWageTool).getTotalWageByCompany("Amazon"));
+        System.out.println("Total Wage for Paypal: " + ((EmployeeWage) empWageTool).getTotalWageByCompany("Paypal"));
+        System.out.println("Total Wage for Google: " + ((EmployeeWage) empWageTool).getTotalWageByCompany("Google"));
+        System.out.println("Total Wage for Flipkart: " + ((EmployeeWage) empWageTool).getTotalWageByCompany("Flipkart"));
         }
 }
